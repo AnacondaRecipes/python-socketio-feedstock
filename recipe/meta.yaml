@@ -1,4 +1,4 @@
-{% set version = "4.3.0" %}
+{% set version = "4.3.1" %}
 
 package:
   name: python-socketio
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/p/python-socketio/python-socketio-{{ version }}.tar.gz
-  sha256: f7760eb02a1058e7d0975bba4b5313f29c8ed75dbe56b68d26ea18bcd371cdd6
+  sha256: 506b2cf7a520b40ea0b3f25e1272eff8de134dce6f471c1f6bc0de8c90fe8c57
 
 build:
   number: 0
@@ -21,7 +21,7 @@ requirements:
   run:
     - python
     - six >=1.9.0
-    - python-engineio >=3.2.0
+    - python-engineio >=3.9.0
 
 test:
   imports:
