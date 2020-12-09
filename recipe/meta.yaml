@@ -21,6 +21,7 @@ requirements:
     - python
     - six >=1.9.0
     - python-engineio >=3.9.0
+    - bidict
 
 test:
   requires:
