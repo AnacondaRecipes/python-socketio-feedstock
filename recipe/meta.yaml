@@ -26,11 +26,8 @@ test:
   requires:
     - pip
     - mock
-    - pytest
-    - pytest-cov
   commands:
     - pip check
-    - pytest -p no:logging --cov=socketio --cov-branch --cov-report=term-missing
   imports:
     - socketio
     - socketio.base_manager
