@@ -1,34 +1,37 @@
-{% set version = "5.3.0" %}
-
+{% set name = "python-socketio" %}
+{% set version = "5.13.0" %}
+ 
 package:
-  name: python-socketio
+  name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/p/python-socketio/python-socketio-{{ version }}.tar.gz
-  sha256: 3dcc9785aaeef3a9eeb36c3818095662342744bdcdabd050fe697cdb826a1c2b
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name|replace('-', '_') }}-{{ version }}.tar.gz
+  sha256: ac4e19a0302ae812e23b712ec8b6427ca0521f7c582d6abb096e36e24a263029
 
 build:
   number: 0
-  noarch: python
-  script: {{ PYTHON }} -m pip install . --no-deps -vv
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  skip: True  # [py<38]
 
 requirements:
   host:
-    - python >=3.6
+    - python
     - pip
-    - setuptools >=42
+    - setuptools>=61.2
     - wheel
   run:
-    - python >=3.6
-    - python-engineio >=4.1.0
+    - python
+    - python-engineio >=4.11.0
     - bidict >=0.21.0
+run_constrained:
+    - equests >=2.21.0
+    - websocket-client >=0.54.0
+    - aiohttp >=3.4
 
 test:
-  requires:
-    - pip
-  commands:
-    - pip check
+  source_files:
+    - tests
   imports:
     - socketio
     - socketio.base_manager
@@ -39,16 +42,29 @@ test:
     - socketio.pubsub_manager
     - socketio.redis_manager
     - socketio.server
+  requires:
+    - pip
+    - pytest
+    - msgpack-python
+    - requests
+    - uvicorn
+    - websocket-client
+  commands:
+    - pip check
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+    - pytest -v tests
 
 about:
-  home: https://github.com/miguelgrinberg/python-socketio/
+  home: https://github.com/miguelgrinberg/python-socketio
   license_file: LICENSE
   license: MIT
   license_family: MIT
-  summary: Socket.IO server
-  doc_url: https://python-socketio.readthedocs.io/
-  dev_url: https://github.com/miguelgrinberg/python-socketio/
-
+  summary: Python implementation of the Socket.IO realtime client and server.
+  description: |
+    This projects implements Socket.IO clients and servers that can run 
+    standalone or integrated with a variety of Python web frameworks.
+  doc_url: https://python-socketio.readthedocs.io
+  dev_url: https://github.com/miguelgrinberg/python-socketio
 
 extra:
   recipe-maintainers:
