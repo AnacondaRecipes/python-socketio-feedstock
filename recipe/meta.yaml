@@ -1,5 +1,5 @@
 {% set name = "python-socketio" %}
-{% set version = "5.13.0" %}
+{% set version = "5.15.0" %}
  
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name|replace('-', '_') }}-{{ version }}.tar.gz
-  sha256: ac4e19a0302ae812e23b712ec8b6427ca0521f7c582d6abb096e36e24a263029
+  sha256: d0403ababb59aa12fd5adcfc933a821113f27bd77761bc1c54aad2e3191a9b69
 
 build:
   number: 0
@@ -24,14 +24,20 @@ requirements:
     - python
     - python-engineio >=4.11.0
     - bidict >=0.21.0
-run_constrained:
+  run_constrained:
     - requests >=2.21.0
     - websocket-client >=0.54.0
     - aiohttp >=3.4
 
+# E   ModuleNotFoundError: No module named 'valkey'
+{% set ignore_redis_tests = [
+  "--ignore=tests/async/test_redis_manager.py",
+  "--ignore=tests/common/test_redis_manager.py"
+]%}
 test:
   source_files:
     - tests
+    - pyproject.toml
   imports:
     - socketio
     - socketio.base_manager
@@ -44,15 +50,19 @@ test:
     - socketio.server
   requires:
     - pip
+    - simple-websocket
+    - uvicorn
+    - requests
+    - websocket-client
+    - aiohttp
     - pytest
     - msgpack-python
-    - requests
-    - uvicorn
-    - websocket-client
+    - pytest-asyncio
+    - pytest-timeout
   commands:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
-    - pytest -v tests
+    - pytest -v tests {{ ignore_redis_tests | join(" ")}}
 
 about:
   home: https://github.com/miguelgrinberg/python-socketio
