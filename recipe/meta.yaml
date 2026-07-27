@@ -1,29 +1,29 @@
 {% set name = "python-socketio" %}
-{% set version = "5.15.0" %}
+{% set version = "5.16.3" %}
  
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name|replace('-', '_') }}-{{ version }}.tar.gz
-  sha256: d0403ababb59aa12fd5adcfc933a821113f27bd77761bc1c54aad2e3191a9b69
+  sha256: 89b136f677ae65607a84cecda9b4d6c5377b40a97582c504c25df89af16d520e
 
 build:
   number: 0
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  skip: True  # [py<38]
+  skip: true  # [py<38]
 
 requirements:
   host:
-    - python
     - pip
-    - setuptools >=61.2
+    - python
     - wheel
+    - setuptools >=61.2
   run:
     - python
-    - python-engineio >=4.11.0
     - bidict >=0.21.0
+    - python-engineio >=4.13.2
   run_constrained:
     - requests >=2.21.0
     - websocket-client >=0.54.0
