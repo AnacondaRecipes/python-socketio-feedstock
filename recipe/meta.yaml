@@ -1,13 +1,13 @@
 {% set name = "python-socketio" %}
-{% set version = "5.16.3" %}
- 
+{% set version = "5.18.0" %}
+
 package:
   name: {{ name }}
   version: {{ version }}
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name|replace('-', '_') }}-{{ version }}.tar.gz
-  sha256: 89b136f677ae65607a84cecda9b4d6c5377b40a97582c504c25df89af16d520e
+  sha256: 81ec0fbc34b82009272834145a8fab82ccc36eb057eb2c3798dfe253fa47ed72
 
 build:
   number: 0
@@ -23,7 +23,7 @@ requirements:
   run:
     - python
     - bidict >=0.21.0
-    - python-engineio >=4.13.2
+    - python-engineio >=4.15.1
   run_constrained:
     - requests >=2.21.0
     - websocket-client >=0.54.0
